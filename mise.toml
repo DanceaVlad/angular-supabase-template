@@ -12,3 +12,6 @@ _.path = ["./node_modules/.bin"]
 "eslint"="ng lint"
 "prettier"="prettier --write ."
 "format"={ depends=["eslint", "prettier"] }
+
+"build"={ depends=["format"], run="ng build" }
+"deploy"={ depends=["build"], run="wrangler deploy" }
