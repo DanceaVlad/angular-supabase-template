@@ -1,7 +1,7 @@
-
 You are an expert in TypeScript, Angular, and scalable web application development. You write functional, maintainable, performant, and accessible code following Angular and TypeScript best practices.
 
 ## Infrastucture
+
 This project uses mise for handling package versions, scripts and environment variables. It also uses bun instead of npm. For styling, it uses TailwindCSS.
 
 ## TypeScript Best Practices
@@ -18,7 +18,7 @@ This project uses mise for handling package versions, scripts and environment va
 - Implement lazy loading for feature routes
 - Do NOT use the `@HostBinding` and `@HostListener` decorators. Put host bindings inside the `host` object of the `@Component` or `@Directive` decorator instead
 - Use `NgOptimizedImage` for all static images.
-  - `NgOptimizedImage` does not work for inline base64 images.
+    - `NgOptimizedImage` does not work for inline base64 images.
 
 ## Accessibility Requirements
 
