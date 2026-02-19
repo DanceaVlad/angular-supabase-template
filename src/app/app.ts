@@ -1,10 +1,16 @@
 import { ChangeDetectionStrategy, Component, inject, resource } from '@angular/core';
+import { provideIcons } from '@ng-icons/core';
+import { lucideChevronRight } from '@ng-icons/lucide';
+import { HlmButtonImports } from '@spartan/button';
+import { HlmIconImports } from '@spartan/icon';
 
-import { SupabaseService } from './core/supabase.service';
+import { SupabaseService } from './shared/services/supabase.service';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.html',
+    imports: [HlmButtonImports, HlmIconImports],
+    providers: [provideIcons({ lucideChevronRight })],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class App {
