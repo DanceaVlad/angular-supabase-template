@@ -1,1 +1,11 @@
-<div class="h-5 w-5 aspect-square bg-amber-400">haha</div>
+@if (todos.isLoading()) {
+    <p>Loading...</p>
+} @else if (todos.error()) {
+    <p>Failed to load todos.</p>
+} @else {
+    @for (todo of todos.value(); track todo.id) {
+        <p>{{ todo.title }}</p>
+    } @empty {
+        <p>No todos yet.</p>
+    }
+}
