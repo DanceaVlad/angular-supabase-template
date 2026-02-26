@@ -4,12 +4,13 @@ import { lucideChevronRight } from '@ng-icons/lucide';
 import { HlmButtonImports } from '@spartan/button';
 import { HlmIconImports } from '@spartan/icon';
 
+import { Topbar } from './shared/components/topbar/topbar';
 import { SupabaseService } from './shared/services/supabase.service';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.html',
-    imports: [HlmButtonImports, HlmIconImports],
+    imports: [HlmButtonImports, HlmIconImports, Topbar],
     providers: [provideIcons({ lucideChevronRight })],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
