@@ -12,9 +12,61 @@
 
         <button hlmBtn>Sign in</button>
 
-        <button hlmBtn variant="ghost" size="icon" aria-label="Open settings">
+        <button
+            [hlmDropdownMenuTrigger]="menu"
+            hlmBtn
+            variant="ghost"
+            size="icon"
+            aria-label="Open settings"
+        >
             <ng-icon hlm name="lucideSettings" />
         </button>
+
+        <ng-template #menu>
+            <hlm-dropdown-menu class="w-56">
+                <hlm-dropdown-menu-group>
+                    <button
+                        hlmDropdownMenuItem
+                        side="right"
+                        align="start"
+                        [hlmDropdownMenuTrigger]="themes"
+                    >
+                        <span>Theme</span>
+                        <hlm-dropdown-menu-item-sub-indicator />
+                    </button>
+                </hlm-dropdown-menu-group>
+            </hlm-dropdown-menu>
+        </ng-template>
+
+        <ng-template #themes>
+            <hlm-dropdown-menu-sub>
+                @let p = theme();
+                <button
+                    hlmDropdownMenuRadio
+                    [checked]="p === 'system'"
+                    (triggered)="setTheme('system')"
+                >
+                    <hlm-dropdown-menu-radio-indicator />
+                    <span>System</span>
+                </button>
+                <button
+                    hlmDropdownMenuRadio
+                    [checked]="p === 'dark'"
+                    (triggered)="setTheme('dark')"
+                >
+                    <hlm-dropdown-menu-radio-indicator />
+                    <span>Dark</span>
+                </button>
+                <button
+                    hlmDropdownMenuRadio
+                    [checked]="p === 'light'"
+                    (triggered)="setTheme('light')"
+                >
+                    <hlm-dropdown-menu-radio-indicator />
+                    <span>Light</span>
+                </button>
+            </hlm-dropdown-menu-sub>
+        </ng-template>
     </div>
 </header>
 
