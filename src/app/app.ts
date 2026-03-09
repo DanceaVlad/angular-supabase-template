@@ -1,10 +1,21 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { provideIcons } from '@ng-icons/core';
-import { lucideMenu, lucideSettings } from '@ng-icons/lucide';
+import {
+    lucideMenu,
+    lucideSettings,
+    lucideUser,
+    lucideCreditCard,
+    lucidePalette,
+    lucideSun,
+    lucideMoon,
+    lucideMonitor,
+    lucideLogOut,
+} from '@ng-icons/lucide';
 import { HlmButtonImports } from '@spartan/button';
 import { HlmIconImports } from '@spartan/icon';
 import { HlmDropdownMenuImports } from '@spartan/dropdown-menu';
+import { HlmAvatarImports } from '@spartan/avatar';
 
 import { ThemeService } from './shared/services/theme.service';
 import { type Theme } from './shared/types/theme.type';
@@ -14,8 +25,27 @@ import { AuthStatus } from './shared/enums/authStatus.enum';
 @Component({
     selector: 'app-root',
     templateUrl: './app.html',
-    imports: [HlmButtonImports, HlmIconImports, HlmDropdownMenuImports, RouterOutlet, RouterLink],
-    providers: [provideIcons({ lucideMenu, lucideSettings })],
+    imports: [
+        HlmButtonImports,
+        HlmIconImports,
+        HlmDropdownMenuImports,
+        HlmAvatarImports,
+        RouterOutlet,
+        RouterLink,
+    ],
+    providers: [
+        provideIcons({
+            lucideMenu,
+            lucideSettings,
+            lucideUser,
+            lucideCreditCard,
+            lucidePalette,
+            lucideSun,
+            lucideMoon,
+            lucideMonitor,
+            lucideLogOut,
+        }),
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class App {
