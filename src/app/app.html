@@ -1,14 +1,36 @@
-<button hlmBtn size="icon" class="size-8">
-    <ng-icon hlm size="sm" name="lucideChevronRight" />
-</button>
-@if (todos.isLoading()) {
-    <p>Loading...</p>
-} @else if (todos.error()) {
-    <p>Failed to load todos.</p>
-} @else {
-    @for (todo of todos.value(); track todo.id) {
-        <p>{{ todo.title }}</p>
-    } @empty {
-        <p>No todos yet.</p>
+<header
+    class="border-b sticky top-0 z-50 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60"
+>
+    <div class="container mx-auto flex h-14 items-center gap-2 px-4">
+        <button hlmBtn variant="ghost" size="icon" aria-label="Toggle sidebar">
+            <ng-icon hlm name="lucideMenu" />
+        </button>
+
+        <a class="font-semibold text-foreground" href="/">MyApp</a>
+
+        <div class="flex-1"></div>
+
+        <button hlmBtn>Sign in</button>
+
+        <button hlmBtn variant="ghost" size="icon" aria-label="Open settings">
+            <ng-icon hlm name="lucideSettings" />
+        </button>
+    </div>
+</header>
+
+<main class="container mx-auto px-4 py-8">
+    <button hlmBtn size="icon" class="size-8">
+        <ng-icon hlm size="sm" name="lucideChevronRight" />
+    </button>
+    @if (todos.isLoading()) {
+        <p>Loading...</p>
+    } @else if (todos.error()) {
+        <p>Failed to load todos.</p>
+    } @else {
+        @for (todo of todos.value(); track todo.id) {
+            <p>{{ todo.title }}</p>
+        } @empty {
+            <p>No todos yet.</p>
+        }
     }
-}
+</main>
