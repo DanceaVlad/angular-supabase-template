@@ -4,6 +4,16 @@
 @import 'tailwindcss/utilities.css';
 @import '@spartan-ng/brain/hlm-tailwind-preset.css';
 
+@layer base {
+    * {
+        @apply border-border;
+    }
+
+    body {
+        @apply bg-background text-foreground;
+    }
+}
+
 :root {
     color-scheme: light;
     --radius: 0.625rem;
