@@ -1,0 +1,84 @@
+<main class="container mx-auto flex min-h-[calc(100vh-3.5rem)] items-center justify-center px-4">
+    <div class="w-full max-w-sm space-y-6">
+        <div class="space-y-1">
+            <h1 class="text-2xl font-semibold">Sign up</h1>
+            <p class="text-sm text-muted-foreground">Create your account</p>
+        </div>
+
+        <form class="space-y-4" (submit)="handleSubmit($event)" novalidate>
+            @if (serverError()) {
+                <p class="text-destructive text-sm" role="alert">{{ serverError() }}</p>
+            }
+            <div
+                hlmField
+                [attr.data-invalid]="signUpForm.email().touched() && signUpForm.email().invalid()"
+            >
+                <label hlmFieldLabel for="email">Email</label>
+                <input
+                    hlmInput
+                    id="email"
+                    type="email"
+                    autocomplete="email"
+                    [formField]="signUpForm.email"
+                    [error]="signUpForm.email().touched() && signUpForm.email().invalid()"
+                />
+                @if (signUpForm.email().touched() && signUpForm.email().errors().length) {
+                    <hlm-field-error [error]="$any(signUpForm.email().errors())" />
+                }
+            </div>
+
+            <div
+                hlmField
+                [attr.data-invalid]="
+                    signUpForm.password().touched() && signUpForm.password().invalid()
+                "
+            >
+                <label hlmFieldLabel for="password">Password</label>
+                <input
+                    hlmInput
+                    id="password"
+                    type="password"
+                    autocomplete="new-password"
+                    [formField]="signUpForm.password"
+                    [error]="signUpForm.password().touched() && signUpForm.password().invalid()"
+                />
+                @if (signUpForm.password().touched() && signUpForm.password().errors().length) {
+                    <hlm-field-error [error]="$any(signUpForm.password().errors())" />
+                }
+            </div>
+
+            <div
+                hlmField
+                [attr.data-invalid]="
+                    signUpForm.confirmPassword().touched() && signUpForm.confirmPassword().invalid()
+                "
+            >
+                <label hlmFieldLabel for="confirmPassword">Confirm password</label>
+                <input
+                    hlmInput
+                    id="confirmPassword"
+                    type="password"
+                    autocomplete="new-password"
+                    [formField]="signUpForm.confirmPassword"
+                    [error]="
+                        signUpForm.confirmPassword().touched() &&
+                        signUpForm.confirmPassword().invalid()
+                    "
+                />
+                @if (
+                    signUpForm.confirmPassword().touched() &&
+                    signUpForm.confirmPassword().errors().length
+                ) {
+                    <hlm-field-error [error]="$any(signUpForm.confirmPassword().errors())" />
+                }
+            </div>
+
+            <button hlmBtn type="submit" class="w-full">Create account</button>
+        </form>
+
+        <p class="text-sm text-muted-foreground">
+            Already have an account?
+            <a hlmBtn variant="link" class="px-0" routerLink="/auth/sign-in">Sign in</a>
+        </p>
+    </div>
+</main>

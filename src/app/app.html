@@ -10,7 +10,17 @@
 
         <div class="flex-1"></div>
 
-        <a hlmBtn routerLink="/auth/sign-in">Sign in</a>
+        @switch (authState().status) {
+            @case (AuthStatus.LOADING) {
+                Loading...
+            }
+            @case (AuthStatus.UNAUTHENTICATED) {
+                <a hlmBtn routerLink="/auth/sign-in">Sign in</a>
+            }
+            @case (AuthStatus.AUTHENTICATED) {
+                Wassup?
+            }
+        }
 
         <button
             [hlmDropdownMenuTrigger]="menu"

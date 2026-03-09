@@ -1,29 +1,46 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+import { email, form, FormField, required, submit } from '@angular/forms/signals';
 import { HlmButtonImports } from '@spartan/button';
+import { HlmFieldImports } from '@spartan/field';
+import { HlmInputImports } from '@spartan/input';
+
 import { SupabaseService } from '../../../shared/services/supabase.service';
+import { type SignInModel } from './signInModel.interface';
 
 @Component({
     selector: 'app-sign-in',
-    imports: [HlmButtonImports, RouterLink],
+    templateUrl: './sign-in.html',
+    imports: [HlmButtonImports, HlmInputImports, HlmFieldImports, RouterLink, FormField],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `
-        <main
-            class="container mx-auto flex min-h-[calc(100vh-3.5rem)] items-center justify-center px-4"
-        >
-            <div class="w-full max-w-sm space-y-6">
-                <div class="space-y-1">
-                    <h1 class="text-2xl font-semibold">Sign in</h1>
-                    <p class="text-sm text-muted-foreground">Welcome back</p>
-                </div>
-                <p class="text-sm text-muted-foreground">
-                    Don't have an account?
-                    <a hlmBtn variant="link" class="px-0" routerLink="/auth/sign-up">Sign up</a>
-                </p>
-            </div>
-        </main>
-    `,
 })
 export class SignInPage {
-    private supabase: SupabaseService = inject(SupabaseService);
+    private readonly supabase = inject(SupabaseService);
+    private readonly router = inject(Router);
+
+    protected readonly signInForm = form(signal<SignInModel>({ email: '', password: '' }), (f) => {
+        required(f.email, { message: 'Email is required' });
+        email(f.email, { message: 'Enter a valid email address' });
+        required(f.password, { message: 'Password is required' });
+    });
+
+    protected readonly serverError = signal<string | null>(null);
+
+    protected handleSubmit(event: Event): void {
+        event.preventDefault();
+        this.serverError.set(null);
+        void submit(this.signInForm, async (f) => {
+            const { email: emailVal, password } = f().value();
+            const { error } = await this.supabase.client.auth.signInWithPassword({
+                email: emailVal,
+                password,
+            });
+            if (error) {
+                this.serverError.set(error.message);
+                return undefined;
+            }
+            await this.router.navigate(['/']);
+            return undefined;
+        });
+    }
 }

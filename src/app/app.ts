@@ -8,6 +8,8 @@ import { HlmDropdownMenuImports } from '@spartan/dropdown-menu';
 
 import { ThemeService } from './shared/services/theme.service';
 import { type Theme } from './shared/types/theme.type';
+import { AuthService } from './shared/services/auth.service';
+import { AuthStatus } from './shared/enums/authStatus.enum';
 
 @Component({
     selector: 'app-root',
@@ -18,8 +20,11 @@ import { type Theme } from './shared/types/theme.type';
 })
 export class App {
     private readonly themeService = inject(ThemeService);
+    private readonly authService = inject(AuthService);
 
+    protected readonly authState = this.authService.state;
     protected readonly theme = this.themeService.theme;
+    protected readonly AuthStatus = AuthStatus;
 
     protected setTheme(t: Theme): void {
         this.themeService.setTheme(t);

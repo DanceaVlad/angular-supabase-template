@@ -1,0 +1,58 @@
+<main class="container mx-auto flex min-h-[calc(100vh-3.5rem)] items-center justify-center px-4">
+    <div class="w-full max-w-sm space-y-6">
+        <div class="space-y-1">
+            <h1 class="text-2xl font-semibold">Sign in</h1>
+            <p class="text-sm text-muted-foreground">Welcome back</p>
+        </div>
+
+        <form class="space-y-4" (submit)="handleSubmit($event)" novalidate>
+            @if (serverError()) {
+                <p class="text-destructive text-sm" role="alert">{{ serverError() }}</p>
+            }
+            <div
+                hlmField
+                [attr.data-invalid]="signInForm.email().touched() && signInForm.email().invalid()"
+            >
+                <label hlmFieldLabel for="email">Email</label>
+                <input
+                    hlmInput
+                    id="email"
+                    type="email"
+                    autocomplete="email"
+                    [formField]="signInForm.email"
+                    [error]="signInForm.email().touched() && signInForm.email().invalid()"
+                />
+                @if (signInForm.email().touched() && signInForm.email().errors().length) {
+                    <hlm-field-error [error]="$any(signInForm.email().errors())" />
+                }
+            </div>
+
+            <div
+                hlmField
+                [attr.data-invalid]="
+                    signInForm.password().touched() && signInForm.password().invalid()
+                "
+            >
+                <label hlmFieldLabel for="password">Password</label>
+                <input
+                    hlmInput
+                    id="password"
+                    type="password"
+                    autocomplete="current-password"
+                    [formField]="signInForm.password"
+                    [error]="signInForm.password().touched() && signInForm.password().invalid()"
+                />
+                @if (signInForm.password().touched() && signInForm.password().errors().length) {
+                    <hlm-field-error [error]="$any(signInForm.password().errors())" />
+                }
+            </div>
+
+            <button hlmBtn type="submit" class="w-full">Sign in</button>
+        </form>
+
+        <p class="text-sm text-muted-foreground">
+            Don't have an account?
+            <a hlmBtn variant="link" class="px-0" routerLink="/auth/sign-up">Sign up</a>
+        </p>
+    </div>
+</main>
