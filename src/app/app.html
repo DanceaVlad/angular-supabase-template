@@ -10,7 +10,7 @@
 
         <div class="flex-1"></div>
 
-        <button hlmBtn>Sign in</button>
+        <a hlmBtn routerLink="/auth/sign-in">Sign in</a>
 
         <button
             [hlmDropdownMenuTrigger]="menu"
@@ -70,19 +70,4 @@
     </div>
 </header>
 
-<main class="container mx-auto px-4 py-8">
-    <button hlmBtn size="icon" class="size-8">
-        <ng-icon hlm size="sm" name="lucideChevronRight" />
-    </button>
-    @if (todos.isLoading()) {
-        <p>Loading...</p>
-    } @else if (todos.error()) {
-        <p>Failed to load todos.</p>
-    } @else {
-        @for (todo of todos.value(); track todo.id) {
-            <p>{{ todo.title }}</p>
-        } @empty {
-            <p>No todos yet.</p>
-        }
-    }
-</main>
+<router-outlet />
