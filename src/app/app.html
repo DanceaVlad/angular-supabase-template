@@ -8,7 +8,7 @@
 
         <a class="font-semibold text-foreground" href="/">MyApp</a>
 
-        @if (isDevMode) {
+        @if (isDevMode && authState().status === AuthStatus.UNAUTHENTICATED) {
             <button hlmBtn variant="outline" size="sm" (click)="devSignIn()">Dev login</button>
         }
 
