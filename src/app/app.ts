@@ -11,6 +11,8 @@ import {
     lucideMoon,
     lucideMonitor,
     lucideLogOut,
+    lucideTerminal,
+    lucideUserX,
 } from '@ng-icons/lucide';
 import { toast } from 'ngx-sonner';
 import { HlmButtonImports } from '@spartan/button';
@@ -48,6 +50,8 @@ import { SupabaseService } from './shared/services/supabase.service';
             lucideMoon,
             lucideMonitor,
             lucideLogOut,
+            lucideTerminal,
+            lucideUserX,
         }),
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -80,5 +84,14 @@ export class App {
         });
         await this.router.navigate(['/']);
         toast.success('Signed in successfully');
+    }
+
+    protected async devDeleteUsers(): Promise<void> {
+        const { error } = await this.supabase.client.functions.invoke('dev-delete-users');
+        if (error) {
+            toast.error('Failed to delete users');
+            return;
+        }
+        toast.success('All users deleted');
     }
 }

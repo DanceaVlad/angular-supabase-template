@@ -8,9 +8,34 @@
 
         <a class="font-semibold text-foreground" href="/">MyApp</a>
 
-        @if (isDevMode && authState().status === AuthStatus.UNAUTHENTICATED) {
-            <button hlmBtn variant="outline" size="sm" (click)="devSignIn()">Dev login</button>
+        @if (isDevMode) {
+            <button
+                [hlmDropdownMenuTrigger]="devMenu"
+                hlmBtn
+                variant="outline"
+                size="icon"
+                aria-label="Developer tools"
+            >
+                <ng-icon hlm name="lucideTerminal" />
+            </button>
         }
+
+        <ng-template #devMenu>
+            <hlm-dropdown-menu class="w-48">
+                <hlm-dropdown-menu-group>
+                    @if (authState().status === AuthStatus.UNAUTHENTICATED) {
+                        <button hlmDropdownMenuItem (click)="devSignIn()">
+                            <ng-icon hlm size="sm" name="lucideUser" class="text-foreground" />
+                            <span>Sign in as dev</span>
+                        </button>
+                    }
+                    <button hlmDropdownMenuItem variant="destructive" (click)="devDeleteUsers()">
+                        <ng-icon hlm size="sm" name="lucideUserX" class="text-foreground" />
+                        <span>Delete all users</span>
+                    </button>
+                </hlm-dropdown-menu-group>
+            </hlm-dropdown-menu>
+        </ng-template>
 
         <div class="flex-1"></div>
 
