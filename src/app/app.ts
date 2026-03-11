@@ -79,5 +79,6 @@ export class App {
             password: 'cacado13',
         });
         await this.router.navigate(['/']);
+        toast.success('Signed in successfully');
     }
 }
