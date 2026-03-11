@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { provideIcons } from '@ng-icons/core';
 import {
     lucideMenu,
@@ -51,6 +51,7 @@ import { AuthStatus } from './shared/enums/authStatus.enum';
 export class App {
     private readonly themeService = inject(ThemeService);
     private readonly authService = inject(AuthService);
+    private readonly router = inject(Router);
 
     protected readonly authState = this.authService.state;
     protected readonly theme = this.themeService.theme;
@@ -58,5 +59,10 @@ export class App {
 
     protected setTheme(t: Theme): void {
         this.themeService.setTheme(t);
+    }
+
+    protected async signOut(): Promise<void> {
+        await this.authService.signOut();
+        await this.router.navigate(['/']);
     }
 }

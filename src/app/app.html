@@ -62,7 +62,7 @@
                         <hlm-dropdown-menu-item-sub-indicator />
                     </button>
                     @if (authState().status === AuthStatus.AUTHENTICATED) {
-                        <button hlmDropdownMenuItem variant="destructive">
+                        <button hlmDropdownMenuItem variant="destructive" (click)="signOut()">
                             <ng-icon hlm size="sm" name="lucideLogOut" class="text-foreground" />
                             <span>Sign out</span>
                         </button>

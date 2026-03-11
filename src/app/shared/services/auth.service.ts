@@ -34,4 +34,8 @@ export class AuthService {
             );
         });
     }
+
+    async signOut(): Promise<void> {
+        await this.supabase.client.auth.signOut();
+    }
 }
