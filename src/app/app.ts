@@ -12,10 +12,12 @@ import {
     lucideMonitor,
     lucideLogOut,
 } from '@ng-icons/lucide';
+import { toast } from 'ngx-sonner';
 import { HlmButtonImports } from '@spartan/button';
 import { HlmIconImports } from '@spartan/icon';
 import { HlmDropdownMenuImports } from '@spartan/dropdown-menu';
 import { HlmAvatarImports } from '@spartan/avatar';
+import { HlmToasterImports } from '@spartan/sonner';
 
 import { ThemeService } from './shared/services/theme.service';
 import { type Theme } from './shared/types/theme.type';
@@ -30,6 +32,7 @@ import { AuthStatus } from './shared/enums/authStatus.enum';
         HlmIconImports,
         HlmDropdownMenuImports,
         HlmAvatarImports,
+        HlmToasterImports,
         RouterOutlet,
         RouterLink,
     ],
@@ -64,5 +67,6 @@ export class App {
     protected async signOut(): Promise<void> {
         await this.authService.signOut();
         await this.router.navigate(['/']);
+        toast.success('Signed out successfully');
     }
 }

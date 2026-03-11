@@ -40,12 +40,18 @@ export class SignUpPage {
                 this.serverError.set('Passwords do not match');
                 return undefined;
             }
-            const { error } = await this.supabase.client.auth.signUp({
+            const { data, error } = await this.supabase.client.auth.signUp({
                 email: emailVal,
                 password,
             });
             if (error) {
                 this.serverError.set(error.message);
+                return undefined;
+            }
+            if (!data.session) {
+                await this.router.navigate(['/auth/sign-up/confirm'], {
+                    queryParams: { email: emailVal },
+                });
                 return undefined;
             }
             await this.router.navigate(['/']);
