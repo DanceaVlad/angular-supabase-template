@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, isDevMode } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { provideIcons } from '@ng-icons/core';
 import {
@@ -23,6 +23,7 @@ import { ThemeService } from './shared/services/theme.service';
 import { type Theme } from './shared/types/theme.type';
 import { AuthService } from './shared/services/auth.service';
 import { AuthStatus } from './shared/enums/authStatus.enum';
+import { SupabaseService } from './shared/services/supabase.service';
 
 @Component({
     selector: 'app-root',
@@ -54,11 +55,13 @@ import { AuthStatus } from './shared/enums/authStatus.enum';
 export class App {
     private readonly themeService = inject(ThemeService);
     private readonly authService = inject(AuthService);
+    private readonly supabase = inject(SupabaseService);
     private readonly router = inject(Router);
 
     protected readonly authState = this.authService.state;
     protected readonly theme = this.themeService.theme;
     protected readonly AuthStatus = AuthStatus;
+    protected readonly isDevMode = isDevMode();
 
     protected setTheme(t: Theme): void {
         this.themeService.setTheme(t);
@@ -68,5 +71,13 @@ export class App {
         await this.authService.signOut();
         await this.router.navigate(['/']);
         toast.success('Signed out successfully');
+    }
+
+    protected async devSignIn(): Promise<void> {
+        await this.supabase.client.auth.signInWithPassword({
+            email: 'danceavlad@proton.me',
+            password: 'cacado13',
+        });
+        await this.router.navigate(['/']);
     }
 }

@@ -8,6 +8,10 @@
 
         <a class="font-semibold text-foreground" href="/">MyApp</a>
 
+        @if (isDevMode) {
+            <button hlmBtn variant="outline" size="sm" (click)="devSignIn()">Dev login</button>
+        }
+
         <div class="flex-1"></div>
 
         @if (authState().status === AuthStatus.UNAUTHENTICATED) {
