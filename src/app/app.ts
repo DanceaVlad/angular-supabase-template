@@ -78,10 +78,23 @@ export class App {
     }
 
     protected async devSignIn(): Promise<void> {
-        await this.supabase.client.auth.signInWithPassword({
-            email: 'danceavlad@proton.me',
-            password: 'cacado13',
-        });
+        const credentials = { email: 'danceavlad@proton.me', password: 'cacado13' };
+
+        let { error } = await this.supabase.client.auth.signInWithPassword(credentials);
+
+        if (error) {
+            const { error: signUpError } = await this.supabase.client.auth.signUp(credentials);
+            if (signUpError) {
+                toast.error(signUpError.message);
+                return;
+            }
+            const { error: retryError } = await this.supabase.client.auth.signInWithPassword(credentials);
+            if (retryError) {
+                toast.error(retryError.message);
+                return;
+            }
+        }
+
         await this.router.navigate(['/']);
         toast.success('Signed in successfully');
     }
