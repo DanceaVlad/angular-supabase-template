@@ -50,7 +50,7 @@ export class SignUpPage {
             }
             if (!data.session) {
                 await this.router.navigate(['/auth/sign-up/confirm'], {
-                    queryParams: { email: emailVal },
+                    state: { email: emailVal },
                 });
                 return undefined;
             }
