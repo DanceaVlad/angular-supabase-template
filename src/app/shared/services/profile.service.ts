@@ -26,7 +26,11 @@ export class ProfileService {
 
         const { error } = await this.supabase.client
             .from('profiles')
-            .update({ display_name: displayName || null, bio: bio || null, updated_at: new Date().toISOString() })
+            .update({
+                display_name: displayName || null,
+                bio: bio || null,
+                updated_at: new Date().toISOString(),
+            })
             .eq('id', userId);
 
         if (error) return { error: error.message };

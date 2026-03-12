@@ -32,9 +32,7 @@ export class SettingsProfilePage {
     protected readonly displayName = linkedSignal(
         () => this.profileService.profile.value()?.display_name ?? '',
     );
-    protected readonly bio = linkedSignal(
-        () => this.profileService.profile.value()?.bio ?? '',
-    );
+    protected readonly bio = linkedSignal(() => this.profileService.profile.value()?.bio ?? '');
 
     protected updateDisplayName(event: Event): void {
         this.displayName.set((event.target as HTMLInputElement).value);
