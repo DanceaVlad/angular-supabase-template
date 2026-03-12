@@ -22,8 +22,8 @@ export class SettingsProfilePage {
     protected readonly user = this.authService.user;
 
     protected readonly profile = resource({
-        request: this.authService.user,
-        loader: async ({ request: user }) => {
+        loader: async () => {
+            const user = this.authService.user();
             if (!user) return null;
             const { data } = await this.supabase.client
                 .from('profiles')
