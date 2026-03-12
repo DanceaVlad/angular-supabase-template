@@ -39,7 +39,15 @@
 
             <div class="space-y-1.5">
                 <label hlmLabel for="bio">Bio</label>
-                <input hlmInput id="bio" type="text" class="w-full" placeholder="A short bio" />
+                <textarea
+                    hlmTextarea
+                    id="bio"
+                    class="w-full"
+                    placeholder="A short bio"
+                    rows="4"
+                    [value]="bio()"
+                    (input)="updateBio($event)"
+                ></textarea>
             </div>
         </div>
 

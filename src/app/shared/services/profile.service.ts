@@ -13,20 +13,20 @@ export class ProfileService {
         loader: async ({ params: user }) => {
             const { data } = await this.supabase.client
                 .from('profiles')
-                .select('display_name')
+                .select('display_name, bio')
                 .eq('id', user.id)
                 .single();
             return data;
         },
     });
 
-    async update(displayName: string): Promise<{ error: string | null }> {
+    async update(displayName: string, bio: string): Promise<{ error: string | null }> {
         const userId = this.authService.user()?.id;
         if (!userId) return { error: 'Not authenticated' };
 
         const { error } = await this.supabase.client
             .from('profiles')
-            .update({ display_name: displayName || null, updated_at: new Date().toISOString() })
+            .update({ display_name: displayName || null, bio: bio || null, updated_at: new Date().toISOString() })
             .eq('id', userId);
 
         if (error) return { error: error.message };
