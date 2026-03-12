@@ -53,12 +53,7 @@
             @switch (authState().status) {
                 @case (AuthStatus.AUTHENTICATED) {
                     <hlm-avatar>
-                        <img
-                            hlmAvatarImage
-                            src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/angular.png"
-                            alt="JD"
-                        />
-                        <span hlmAvatarFallback>RG</span>
+                        <span hlmAvatarFallback>{{ userInitials() }}</span>
                     </hlm-avatar>
                 }
                 @case (AuthStatus.UNAUTHENTICATED) {

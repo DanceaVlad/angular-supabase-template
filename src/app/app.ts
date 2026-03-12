@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, isDevMode } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, isDevMode } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { provideIcons } from '@ng-icons/core';
 import {
@@ -66,6 +66,9 @@ export class App {
     protected readonly theme = this.themeService.theme;
     protected readonly AuthStatus = AuthStatus;
     protected readonly isDevMode = isDevMode();
+    protected readonly userInitials = computed(() =>
+        (this.authService.user()?.email ?? '').slice(0, 2).toUpperCase(),
+    );
 
     protected setTheme(t: Theme): void {
         this.themeService.setTheme(t);
