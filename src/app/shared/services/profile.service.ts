@@ -9,9 +9,8 @@ export class ProfileService {
     private readonly supabase = inject(SupabaseService);
 
     readonly profile = resource({
-        loader: async () => {
-            const user = this.authService.user();
-            if (!user) return null;
+        params: () => this.authService.user() ?? undefined,
+        loader: async ({ params: user }) => {
             const { data } = await this.supabase.client
                 .from('profiles')
                 .select('display_name')
