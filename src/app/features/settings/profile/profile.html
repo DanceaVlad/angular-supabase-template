@@ -1,0 +1,38 @@
+<div class="max-w-2xl space-y-6">
+    <div>
+        <h1 class="text-xl font-semibold">Public profile</h1>
+        <p class="text-muted-foreground mt-1 text-sm">
+            This information will be displayed on your account.
+        </p>
+    </div>
+
+    <hlm-separator />
+
+    <div class="space-y-4">
+        <div class="space-y-1.5">
+            <label hlmLabel for="email">Email</label>
+            <input
+                hlmInput
+                id="email"
+                type="email"
+                class="w-full"
+                [value]="user()?.email ?? ''"
+                disabled
+            />
+        </div>
+
+        <div class="space-y-1.5">
+            <label hlmLabel for="name">Display name</label>
+            <input hlmInput id="name" type="text" class="w-full" placeholder="Your name" />
+        </div>
+
+        <div class="space-y-1.5">
+            <label hlmLabel for="bio">Bio</label>
+            <input hlmInput id="bio" type="text" class="w-full" placeholder="A short bio" />
+        </div>
+    </div>
+
+    <hlm-separator />
+
+    <button hlmBtn type="button">Update profile</button>
+</div>

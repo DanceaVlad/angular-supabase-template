@@ -1,0 +1,25 @@
+<div class="container mx-auto flex min-h-[calc(100vh-3.5rem)] px-4 py-8">
+    <aside class="w-56 shrink-0 pr-6">
+        <nav aria-label="Settings navigation">
+            <ul role="list" class="space-y-1">
+                @for (item of navItems; track item.route) {
+                    <li>
+                        <a
+                            [routerLink]="item.route"
+                            routerLinkActive="bg-muted text-foreground font-medium"
+                            class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                        >
+                            {{ item.label }}
+                        </a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    </aside>
+
+    <div class="w-px shrink-0 bg-border"></div>
+
+    <main class="min-w-0 flex-1 pl-8">
+        <router-outlet />
+    </main>
+</div>

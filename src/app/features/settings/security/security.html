@@ -1,0 +1,51 @@
+<div class="max-w-2xl space-y-6">
+    <div>
+        <h1 class="text-xl font-semibold">Password and authentication</h1>
+        <p class="text-muted-foreground mt-1 text-sm">
+            Manage your password and security settings.
+        </p>
+    </div>
+
+    <hlm-separator />
+
+    <div class="space-y-4">
+        <h2 class="font-medium">Change password</h2>
+
+        <div class="space-y-1.5">
+            <label hlmLabel for="current-password">Current password</label>
+            <input
+                hlmInput
+                id="current-password"
+                type="password"
+                class="w-full"
+                autocomplete="current-password"
+            />
+        </div>
+
+        <div class="space-y-1.5">
+            <label hlmLabel for="new-password">New password</label>
+            <input
+                hlmInput
+                id="new-password"
+                type="password"
+                class="w-full"
+                autocomplete="new-password"
+            />
+        </div>
+
+        <div class="space-y-1.5">
+            <label hlmLabel for="confirm-password">Confirm new password</label>
+            <input
+                hlmInput
+                id="confirm-password"
+                type="password"
+                class="w-full"
+                autocomplete="new-password"
+            />
+        </div>
+    </div>
+
+    <hlm-separator />
+
+    <button hlmBtn type="button">Update password</button>
+</div>
