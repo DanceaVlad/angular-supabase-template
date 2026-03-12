@@ -12,7 +12,13 @@ import { ProfileService } from '../../../shared/services/profile.service';
 @Component({
     selector: 'app-settings-profile',
     templateUrl: './profile.html',
-    imports: [HlmButtonImports, HlmInputImports, HlmLabelImports, HlmSeparatorImports, HlmSpinnerImports],
+    imports: [
+        HlmButtonImports,
+        HlmInputImports,
+        HlmLabelImports,
+        HlmSeparatorImports,
+        HlmSpinnerImports,
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SettingsProfilePage {

@@ -8,7 +8,12 @@
                             [routerLink]="item.route"
                             routerLinkActive
                             #rla="routerLinkActive"
-                            [class]="'block rounded-md px-3 py-1.5 text-sm transition-colors ' + (rla.isActive ? 'bg-muted text-foreground font-medium' : 'text-muted-foreground hover:bg-muted hover:text-foreground')"
+                            [class]="
+                                'block rounded-md px-3 py-1.5 text-sm transition-colors ' +
+                                (rla.isActive
+                                    ? 'bg-muted text-foreground font-medium'
+                                    : 'text-muted-foreground hover:bg-muted hover:text-foreground')
+                            "
                         >
                             {{ item.label }}
                         </a>

@@ -114,7 +114,8 @@ export class App {
     }
 
     protected async devDeleteUsers(): Promise<void> {
-        const response = await this.supabase.client.functions.invoke<Record<string, never>>('dev-delete-users');
+        const response =
+            await this.supabase.client.functions.invoke<Record<string, never>>('dev-delete-users');
         if (response.error) {
             toast.error('Failed to delete users');
             return;
