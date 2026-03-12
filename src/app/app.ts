@@ -83,7 +83,7 @@ export class App {
     protected async devSignIn(): Promise<void> {
         const credentials = { email: 'danceavlad@proton.me', password: 'cacado13' };
 
-        let { error } = await this.supabase.client.auth.signInWithPassword(credentials);
+        const { error } = await this.supabase.client.auth.signInWithPassword(credentials);
 
         if (error) {
             const { error: signUpError } = await this.supabase.client.auth.signUp(credentials);
@@ -91,7 +91,8 @@ export class App {
                 toast.error(signUpError.message);
                 return;
             }
-            const { error: retryError } = await this.supabase.client.auth.signInWithPassword(credentials);
+            const { error: retryError } =
+                await this.supabase.client.auth.signInWithPassword(credentials);
             if (retryError) {
                 toast.error(retryError.message);
                 return;
@@ -103,8 +104,8 @@ export class App {
     }
 
     protected async devDeleteUsers(): Promise<void> {
-        const { error } = await this.supabase.client.functions.invoke('dev-delete-users');
-        if (error) {
+        const response = await this.supabase.client.functions.invoke<Record<string, never>>('dev-delete-users');
+        if (response.error) {
             toast.error('Failed to delete users');
             return;
         }

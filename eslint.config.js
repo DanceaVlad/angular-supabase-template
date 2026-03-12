@@ -56,6 +56,9 @@ module.exports = defineConfig([
             '@angular-eslint/contextual-lifecycle': 'error',
             '@angular-eslint/relative-url-prefix': 'error',
 
+            // Angular components with no state are legitimately empty classes
+            '@typescript-eslint/no-extraneous-class': ['error', { allowWithDecorator: true }],
+
             // TypeScript strictness
             '@typescript-eslint/no-explicit-any': 'error',
             '@typescript-eslint/explicit-function-return-type': [
