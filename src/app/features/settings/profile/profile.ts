@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, linkedSignal, resource } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, linkedSignal } from '@angular/core';
 import { toast } from 'ngx-sonner';
 import { HlmButtonImports } from '@spartan/button';
 import { HlmInputImports } from '@spartan/input';
@@ -7,7 +7,7 @@ import { HlmSeparatorImports } from '@spartan/separator';
 import { HlmSpinnerImports } from '@spartan/spinner';
 
 import { AuthService } from '../../../shared/services/auth.service';
-import { SupabaseService } from '../../../shared/services/supabase.service';
+import { ProfileService } from '../../../shared/services/profile.service';
 
 @Component({
     selector: 'app-settings-profile',
@@ -16,26 +16,13 @@ import { SupabaseService } from '../../../shared/services/supabase.service';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SettingsProfilePage {
-    private readonly authService = inject(AuthService);
-    private readonly supabase = inject(SupabaseService);
+    private readonly profileService = inject(ProfileService);
 
-    protected readonly user = this.authService.user;
-
-    protected readonly profile = resource({
-        loader: async () => {
-            const user = this.authService.user();
-            if (!user) return null;
-            const { data } = await this.supabase.client
-                .from('profiles')
-                .select('display_name')
-                .eq('id', user.id)
-                .single();
-            return data;
-        },
-    });
+    protected readonly user = inject(AuthService).user;
+    protected readonly profile = this.profileService.profile;
 
     protected readonly displayName = linkedSignal(
-        () => this.profile.value()?.display_name ?? '',
+        () => this.profileService.profile.value()?.display_name ?? '',
     );
 
     protected updateDisplayName(event: Event): void {
@@ -43,22 +30,11 @@ export class SettingsProfilePage {
     }
 
     protected async save(): Promise<void> {
-        const userId = this.user()?.id;
-        if (!userId) return;
-
-        const { error } = await this.supabase.client
-            .from('profiles')
-            .update({
-                display_name: this.displayName() || null,
-                updated_at: new Date().toISOString(),
-            })
-            .eq('id', userId);
-
+        const { error } = await this.profileService.update(this.displayName());
         if (error) {
-            toast.error(error.message);
+            toast.error(error);
             return;
         }
-
         toast.success('Profile updated');
     }
 }

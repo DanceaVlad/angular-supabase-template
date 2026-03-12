@@ -26,6 +26,7 @@ import { type Theme } from './shared/types/theme.type';
 import { AuthService } from './shared/services/auth.service';
 import { AuthStatus } from './shared/enums/authStatus.enum';
 import { SupabaseService } from './shared/services/supabase.service';
+import { ProfileService } from './shared/services/profile.service';
 
 @Component({
     selector: 'app-root',
@@ -59,6 +60,7 @@ import { SupabaseService } from './shared/services/supabase.service';
 export class App {
     private readonly themeService = inject(ThemeService);
     private readonly authService = inject(AuthService);
+    private readonly profileService = inject(ProfileService);
     private readonly supabase = inject(SupabaseService);
     private readonly router = inject(Router);
 
@@ -66,9 +68,17 @@ export class App {
     protected readonly theme = this.themeService.theme;
     protected readonly AuthStatus = AuthStatus;
     protected readonly isDevMode = isDevMode();
-    protected readonly userInitials = computed(() =>
-        (this.authService.user()?.email ?? '').slice(0, 2).toUpperCase(),
-    );
+    protected readonly userInitials = computed(() => {
+        const displayName = this.profileService.profile.value()?.display_name?.trim();
+        if (displayName) {
+            const parts = displayName.split(/\s+/);
+            if (parts.length >= 2) {
+                return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+            }
+            return displayName.slice(0, 2).toUpperCase();
+        }
+        return (this.authService.user()?.email ?? '').slice(0, 2).toUpperCase();
+    });
 
     protected setTheme(t: Theme): void {
         this.themeService.setTheme(t);
