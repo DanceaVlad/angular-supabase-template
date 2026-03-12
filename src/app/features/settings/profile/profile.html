@@ -8,31 +8,43 @@
 
     <hlm-separator />
 
-    <div class="space-y-4">
-        <div class="space-y-1.5">
-            <label hlmLabel for="email">Email</label>
-            <input
-                hlmInput
-                id="email"
-                type="email"
-                class="w-full"
-                [value]="user()?.email ?? ''"
-                disabled
-            />
+    @if (profile.isLoading()) {
+        <hlm-spinner />
+    } @else {
+        <div class="space-y-4">
+            <div class="space-y-1.5">
+                <label hlmLabel for="email">Email</label>
+                <input
+                    hlmInput
+                    id="email"
+                    type="email"
+                    class="w-full"
+                    [value]="user()?.email ?? ''"
+                    disabled
+                />
+            </div>
+
+            <div class="space-y-1.5">
+                <label hlmLabel for="name">Display name</label>
+                <input
+                    hlmInput
+                    id="name"
+                    type="text"
+                    class="w-full"
+                    placeholder="Your name"
+                    [value]="displayName()"
+                    (input)="updateDisplayName($event)"
+                />
+            </div>
+
+            <div class="space-y-1.5">
+                <label hlmLabel for="bio">Bio</label>
+                <input hlmInput id="bio" type="text" class="w-full" placeholder="A short bio" />
+            </div>
         </div>
 
-        <div class="space-y-1.5">
-            <label hlmLabel for="name">Display name</label>
-            <input hlmInput id="name" type="text" class="w-full" placeholder="Your name" />
-        </div>
+        <hlm-separator />
 
-        <div class="space-y-1.5">
-            <label hlmLabel for="bio">Bio</label>
-            <input hlmInput id="bio" type="text" class="w-full" placeholder="A short bio" />
-        </div>
-    </div>
-
-    <hlm-separator />
-
-    <button hlmBtn type="button">Update profile</button>
+        <button hlmBtn type="button" (click)="save()">Update profile</button>
+    }
 </div>
