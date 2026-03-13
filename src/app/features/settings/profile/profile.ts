@@ -2,11 +2,9 @@ import {
     ChangeDetectionStrategy,
     Component,
     computed,
-    ElementRef,
     inject,
     linkedSignal,
     signal,
-    ViewChild,
 } from '@angular/core';
 import Cropper from 'cropperjs';
 import { toast } from 'ngx-sonner';
@@ -39,8 +37,6 @@ import { ProfileService } from '../../../shared/services/profile.service';
 })
 export class SettingsProfilePage {
     private readonly profileService = inject(ProfileService);
-
-    @ViewChild('cropperImg') private cropperImg!: ElementRef<HTMLImageElement>;
 
     protected readonly user = inject(AuthService).user;
     protected readonly profile = this.profileService.profile;
@@ -83,9 +79,9 @@ export class SettingsProfilePage {
         reader.readAsDataURL(file);
     }
 
-    protected onImageLoaded(): void {
+    protected onImageLoaded(event: Event): void {
         this.cropper?.destroy();
-        this.cropper = new Cropper(this.cropperImg.nativeElement, {
+        this.cropper = new Cropper(event.target as HTMLImageElement, {
             aspectRatio: 1,
             viewMode: 1,
             dragMode: 'move',

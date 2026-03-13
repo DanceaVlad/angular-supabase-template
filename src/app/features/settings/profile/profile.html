@@ -118,11 +118,10 @@
                 </label>
             } @else {
                 <img
-                    #cropperImg
                     [src]="cropperImageSrc()!"
                     alt="Crop preview"
                     class="block max-h-80 w-full"
-                    (load)="onImageLoaded()"
+                    (load)="onImageLoaded($event)"
                 />
             }
         </div>
