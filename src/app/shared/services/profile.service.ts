@@ -51,6 +51,27 @@ export class ProfileService {
         return { error: null };
     }
 
+    async deleteAvatar(): Promise<{ error: string | null }> {
+        const userId = this.authService.user()?.id;
+        if (!userId) return { error: 'Not authenticated' };
+
+        const { error: removeError } = await this.supabase.client.storage
+            .from('avatars')
+            .remove([`${userId}/avatar.jpg`]);
+
+        if (removeError) return { error: removeError.message };
+
+        const { error: updateError } = await this.supabase.client
+            .from('profiles')
+            .update({ avatar_url: null, updated_at: new Date().toISOString() })
+            .eq('id', userId);
+
+        if (updateError) return { error: updateError.message };
+
+        this.profile.reload();
+        return { error: null };
+    }
+
     async uploadAvatar(blob: Blob): Promise<{ error: string | null }> {
         const userId = this.authService.user()?.id;
         if (!userId) return { error: 'Not authenticated' };

@@ -125,6 +125,15 @@ export class SettingsProfilePage {
         this.cropper = null;
     }
 
+    protected async deleteAvatar(): Promise<void> {
+        const { error } = await this.profileService.deleteAvatar();
+        if (error) {
+            toast.error(error);
+            return;
+        }
+        toast.success('Profile photo removed');
+    }
+
     protected async save(): Promise<void> {
         const { error } = await this.profileService.update(this.displayName(), this.bio());
         if (error) {
