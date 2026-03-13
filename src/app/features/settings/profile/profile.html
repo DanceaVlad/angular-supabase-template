@@ -88,6 +88,7 @@
 </div>
 
 <hlm-dialog #avatarDialog (closed)="closeAvatarDialog()">
+    <ng-template hlmDialogPortal>
     <hlm-dialog-content class="max-w-md">
         <hlm-dialog-header>
             <h2 hlmDialogTitle>Update profile photo</h2>
@@ -143,4 +144,5 @@
             </button>
         </hlm-dialog-footer>
     </hlm-dialog-content>
+    </ng-template>
 </hlm-dialog>
