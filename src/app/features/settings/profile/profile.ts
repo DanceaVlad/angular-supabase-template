@@ -5,8 +5,10 @@ import {
     inject,
     linkedSignal,
     signal,
+    ViewChild,
 } from '@angular/core';
 import Cropper from 'cropperjs';
+import { HlmDialog } from '@spartan/dialog';
 import { toast } from 'ngx-sonner';
 import { HlmAvatarImports } from '@spartan/avatar';
 import { HlmButtonImports } from '@spartan/button';
@@ -37,6 +39,8 @@ import { ProfileService } from '../../../shared/services/profile.service';
 })
 export class SettingsProfilePage {
     private readonly profileService = inject(ProfileService);
+
+    @ViewChild('avatarDialog') private avatarDialog!: HlmDialog;
 
     protected readonly user = inject(AuthService).user;
     protected readonly profile = this.profileService.profile;
@@ -121,6 +125,7 @@ export class SettingsProfilePage {
     }
 
     protected closeAvatarDialog(): void {
+        this.avatarDialog?.close();
         this.cropperImageSrc.set(null);
         this.cropper?.destroy();
         this.cropper = null;
