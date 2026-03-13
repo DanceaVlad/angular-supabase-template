@@ -1,6 +1,7 @@
 import {
     ChangeDetectionStrategy,
     Component,
+    computed,
     ElementRef,
     inject,
     linkedSignal,
@@ -43,6 +44,18 @@ export class SettingsProfilePage {
 
     protected readonly user = inject(AuthService).user;
     protected readonly profile = this.profileService.profile;
+
+    protected readonly userInitials = computed(() => {
+        const displayName = this.profileService.profile.value()?.display_name?.trim();
+        if (displayName) {
+            const parts = displayName.split(/\s+/);
+            if (parts.length >= 2) {
+                return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+            }
+            return displayName.slice(0, 2).toUpperCase();
+        }
+        return (this.user()?.email ?? '').slice(0, 2).toUpperCase();
+    });
 
     protected readonly displayName = linkedSignal(
         () => this.profileService.profile.value()?.display_name ?? '',

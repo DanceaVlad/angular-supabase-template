@@ -15,7 +15,7 @@
             <button
                 type="button"
                 [hlmDialogTriggerFor]="avatarDialog"
-                class="group flex cursor-pointer flex-col items-center gap-1.5 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                class="group mx-auto flex cursor-pointer flex-col items-center gap-1.5 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 aria-label="Change profile photo"
             >
                 <div class="relative">
@@ -27,7 +27,7 @@
                                 alt="Profile photo"
                             />
                         }
-                        <span hlmAvatarFallback class="text-2xl">{{ user()?.email?.slice(0, 2)?.toUpperCase() }}</span>
+                        <span hlmAvatarFallback class="text-2xl">{{ userInitials() }}</span>
                     </hlm-avatar>
                     <div
                         class="absolute inset-0 flex items-center justify-center rounded-full bg-black/40 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
