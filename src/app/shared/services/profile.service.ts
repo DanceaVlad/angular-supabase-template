@@ -1,4 +1,4 @@
-import { inject, Injectable, resource } from '@angular/core';
+import { computed, inject, Injectable, resource } from '@angular/core';
 
 import { AuthService } from './auth.service';
 import { SupabaseService } from './supabase.service';
@@ -7,6 +7,18 @@ import { SupabaseService } from './supabase.service';
 export class ProfileService {
     private readonly authService = inject(AuthService);
     private readonly supabase = inject(SupabaseService);
+
+    readonly userInitials = computed(() => {
+        const displayName = this.profile.value()?.display_name?.trim();
+        if (displayName) {
+            const parts = displayName.split(/\s+/);
+            if (parts.length >= 2) {
+                return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+            }
+            return displayName.slice(0, 2).toUpperCase();
+        }
+        return (this.authService.user()?.email ?? '').slice(0, 2).toUpperCase();
+    });
 
     readonly profile = resource({
         params: () => this.authService.user() ?? undefined,
