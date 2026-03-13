@@ -12,13 +12,13 @@
         <hlm-spinner />
     } @else {
         <div class="space-y-4">
-            <div class="flex flex-col items-center gap-2">
-                <button
-                    type="button"
-                    [hlmDialogTriggerFor]="avatarDialog"
-                    class="group relative cursor-pointer rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                    aria-label="Change profile photo"
-                >
+            <button
+                type="button"
+                [hlmDialogTriggerFor]="avatarDialog"
+                class="group flex cursor-pointer flex-col items-center gap-1.5 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                aria-label="Change profile photo"
+            >
+                <div class="relative">
                     <hlm-avatar class="size-20">
                         @if (profile.value()?.avatar_url) {
                             <img
@@ -27,7 +27,7 @@
                                 alt="Profile photo"
                             />
                         }
-                        <span hlmAvatarFallback class="text-lg">{{ user()?.email?.slice(0, 2)?.toUpperCase() }}</span>
+                        <span hlmAvatarFallback class="text-2xl">{{ user()?.email?.slice(0, 2)?.toUpperCase() }}</span>
                     </hlm-avatar>
                     <div
                         class="absolute inset-0 flex items-center justify-center rounded-full bg-black/40 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
@@ -38,9 +38,9 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
                         </svg>
                     </div>
-                </button>
-                <span class="text-muted-foreground text-sm">Change photo</span>
-            </div>
+                </div>
+                <span class="text-muted-foreground text-sm group-hover:text-foreground transition-colors">Change photo</span>
+            </button>
 
             <div class="space-y-1.5">
                 <label hlmLabel for="email">Email</label>
