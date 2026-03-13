@@ -55,9 +55,11 @@ export class ProfileService {
             .from('avatars')
             .getPublicUrl(path);
 
+        const avatarUrl = `${urlData.publicUrl}?t=${Date.now()}`;
+
         const { error: updateError } = await this.supabase.client
             .from('profiles')
-            .update({ avatar_url: urlData.publicUrl, updated_at: new Date().toISOString() })
+            .update({ avatar_url: avatarUrl, updated_at: new Date().toISOString() })
             .eq('id', userId);
 
         if (updateError) return { error: updateError.message };
