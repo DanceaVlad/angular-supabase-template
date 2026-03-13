@@ -5,10 +5,10 @@ import {
     inject,
     linkedSignal,
     signal,
-    ViewChild,
+    viewChild,
 } from '@angular/core';
 import Cropper from 'cropperjs';
-import { HlmDialog } from '@spartan/dialog';
+import type { HlmDialog } from '@spartan/dialog';
 import { toast } from 'ngx-sonner';
 import { HlmAvatarImports } from '@spartan/avatar';
 import { HlmButtonImports } from '@spartan/button';
@@ -39,8 +39,7 @@ import { ProfileService } from '../../../shared/services/profile.service';
 })
 export class SettingsProfilePage {
     private readonly profileService = inject(ProfileService);
-
-    @ViewChild('avatarDialog') private avatarDialog!: HlmDialog;
+    private readonly avatarDialog = viewChild<HlmDialog>('avatarDialog');
 
     protected readonly user = inject(AuthService).user;
     protected readonly profile = this.profileService.profile;
@@ -79,7 +78,9 @@ export class SettingsProfilePage {
         const file = (event.target as HTMLInputElement).files?.[0];
         if (!file) return;
         const reader = new FileReader();
-        reader.onload = (e) => this.cropperImageSrc.set(e.target?.result as string);
+        reader.onload = (e) => {
+            this.cropperImageSrc.set(e.target?.result as string);
+        };
         reader.readAsDataURL(file);
     }
 
@@ -104,28 +105,32 @@ export class SettingsProfilePage {
         if (!this.cropper) return;
         this.isSavingAvatar.set(true);
         this.cropper.getCroppedCanvas({ width: 512, height: 512 }).toBlob(
-            async (blob) => {
-                if (!blob) {
-                    this.isSavingAvatar.set(false);
-                    toast.error('Failed to process image');
-                    return;
-                }
-                const { error } = await this.profileService.uploadAvatar(blob);
-                this.isSavingAvatar.set(false);
-                if (error) {
-                    toast.error(error);
-                    return;
-                }
-                toast.success('Profile photo updated');
-                this.closeAvatarDialog();
+            (blob) => {
+                void this.uploadBlob(blob);
             },
             'image/jpeg',
             0.85,
         );
     }
 
+    private async uploadBlob(blob: Blob | null): Promise<void> {
+        if (!blob) {
+            this.isSavingAvatar.set(false);
+            toast.error('Failed to process image');
+            return;
+        }
+        const { error } = await this.profileService.uploadAvatar(blob);
+        this.isSavingAvatar.set(false);
+        if (error) {
+            toast.error(error);
+            return;
+        }
+        toast.success('Profile photo updated');
+        this.closeAvatarDialog();
+    }
+
     protected closeAvatarDialog(): void {
-        this.avatarDialog?.close();
+        this.avatarDialog()?.close();
         this.cropperImageSrc.set(null);
         this.cropper?.destroy();
         this.cropper = null;

@@ -51,11 +51,9 @@ export class ProfileService {
 
         if (uploadError) return { error: uploadError.message };
 
-        const { data: urlData } = this.supabase.client.storage
-            .from('avatars')
-            .getPublicUrl(path);
+        const { data: urlData } = this.supabase.client.storage.from('avatars').getPublicUrl(path);
 
-        const avatarUrl = `${urlData.publicUrl}?t=${Date.now()}`;
+        const avatarUrl = `${urlData.publicUrl}?t=${Date.now().toString()}`;
 
         const { error: updateError } = await this.supabase.client
             .from('profiles')
