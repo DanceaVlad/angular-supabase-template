@@ -1,6 +1,17 @@
-import { ChangeDetectionStrategy, Component, inject, linkedSignal } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    ElementRef,
+    inject,
+    linkedSignal,
+    signal,
+    ViewChild,
+} from '@angular/core';
+import Cropper from 'cropperjs';
 import { toast } from 'ngx-sonner';
+import { HlmAvatarImports } from '@spartan/avatar';
 import { HlmButtonImports } from '@spartan/button';
+import { HlmDialogImports } from '@spartan/dialog';
 import { HlmInputImports } from '@spartan/input';
 import { HlmLabelImports } from '@spartan/label';
 import { HlmSeparatorImports } from '@spartan/separator';
@@ -14,7 +25,9 @@ import { ProfileService } from '../../../shared/services/profile.service';
     selector: 'app-settings-profile',
     templateUrl: './profile.html',
     imports: [
+        HlmAvatarImports,
         HlmButtonImports,
+        HlmDialogImports,
         HlmInputImports,
         HlmLabelImports,
         HlmSeparatorImports,
@@ -26,6 +39,8 @@ import { ProfileService } from '../../../shared/services/profile.service';
 export class SettingsProfilePage {
     private readonly profileService = inject(ProfileService);
 
+    @ViewChild('cropperImg') private cropperImg!: ElementRef<HTMLImageElement>;
+
     protected readonly user = inject(AuthService).user;
     protected readonly profile = this.profileService.profile;
 
@@ -34,12 +49,72 @@ export class SettingsProfilePage {
     );
     protected readonly bio = linkedSignal(() => this.profileService.profile.value()?.bio ?? '');
 
+    protected readonly cropperImageSrc = signal<string | null>(null);
+    protected readonly isSavingAvatar = signal(false);
+
+    private cropper: Cropper | null = null;
+
     protected updateDisplayName(event: Event): void {
         this.displayName.set((event.target as HTMLInputElement).value);
     }
 
     protected updateBio(event: Event): void {
         this.bio.set((event.target as HTMLTextAreaElement).value);
+    }
+
+    protected onFileSelected(event: Event): void {
+        const file = (event.target as HTMLInputElement).files?.[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (e) => this.cropperImageSrc.set(e.target?.result as string);
+        reader.readAsDataURL(file);
+    }
+
+    protected onImageLoaded(): void {
+        this.cropper?.destroy();
+        this.cropper = new Cropper(this.cropperImg.nativeElement, {
+            aspectRatio: 1,
+            viewMode: 1,
+            dragMode: 'move',
+            autoCropArea: 1,
+            restore: false,
+            guides: false,
+            center: false,
+            highlight: false,
+            cropBoxMovable: false,
+            cropBoxResizable: false,
+            toggleDragModeOnDblclick: false,
+        });
+    }
+
+    protected saveAvatar(): void {
+        if (!this.cropper) return;
+        this.isSavingAvatar.set(true);
+        this.cropper.getCroppedCanvas({ width: 512, height: 512 }).toBlob(
+            async (blob) => {
+                if (!blob) {
+                    this.isSavingAvatar.set(false);
+                    toast.error('Failed to process image');
+                    return;
+                }
+                const { error } = await this.profileService.uploadAvatar(blob);
+                this.isSavingAvatar.set(false);
+                if (error) {
+                    toast.error(error);
+                    return;
+                }
+                toast.success('Profile photo updated');
+                this.closeAvatarDialog();
+            },
+            'image/jpeg',
+            0.85,
+        );
+    }
+
+    protected closeAvatarDialog(): void {
+        this.cropperImageSrc.set(null);
+        this.cropper?.destroy();
+        this.cropper = null;
     }
 
     protected async save(): Promise<void> {

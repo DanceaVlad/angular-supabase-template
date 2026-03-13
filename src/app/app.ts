@@ -68,6 +68,9 @@ export class App {
     protected readonly theme = this.themeService.theme;
     protected readonly AuthStatus = AuthStatus;
     protected readonly isDevMode = isDevMode();
+    protected readonly avatarUrl = computed(
+        () => this.profileService.profile.value()?.avatar_url ?? null,
+    );
     protected readonly userInitials = computed(() => {
         const displayName = this.profileService.profile.value()?.display_name?.trim();
         if (displayName) {

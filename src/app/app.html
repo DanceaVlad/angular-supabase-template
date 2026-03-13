@@ -53,6 +53,9 @@
             @switch (authState().status) {
                 @case (AuthStatus.AUTHENTICATED) {
                     <hlm-avatar>
+                        @if (avatarUrl()) {
+                            <img hlmAvatarImage [src]="avatarUrl()!" alt="Profile photo" />
+                        }
                         <span hlmAvatarFallback>{{ userInitials() }}</span>
                     </hlm-avatar>
                 }
